@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>number23</title>
+    <link rel="canonical" href="https://number23.github.io/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/default.min.css">
+    <link href="css/screen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">number23</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li  class="active" ><a href="/">Home</a></li>
+                <li
+                ><a href="/archives/">Archives</a></li>
+                
+                <li
+                >
+                <a href="/pages-output/about/">About</a>
+                </li>
+                
+                <li><a href="/feed.xml">RSS</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+</nav>
+
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-lg-9">
+            <div id="content">
+                
+<div id="post">
+    <div class="post-header">
+    <div id="post-meta" class="row">
+        <div class="col-lg-6">September 12, 2014</div>
+        
+    </div>
+    <h2>my clojure notes</h2>
+</div>
+<div>
+    
+    <ul><li>let 解构: 顺序集合，map.同时作用于: fn, defn, loop, for etc.   &: rest.   map: :keys, :strs, :syms</li><li>Clojure有两个假值：nil, false，任何非nil或非false的值都判断为true．</li><li>recur: not autoboxing</li><li>reduce: 归约</li><li>partial, comp：无参风格，不用显式定义它的参数</li><li>memoize: 缓存相同的参数</li><li>主要抽象：Collection/Sequence/Associative/Indexed/Stack/Set/Sorted</li><li>seq：任何nil 或者任何空集合都返回nil.</li><li>rest：(), next: nil</li><li>nth：会抛出异常, get: nil,</li><li>习惯用法：关键字作为函数</li><li>list/vector : hash-set/hash-map</li><li>transient: vector/map/set</li><li>delay: 只执行一次</li><li>future: 在另外一个线程执行</li><li>pmap: 并行，用future实现</li><li>swap! 会一直重试，直到设值成功</li><li>atom不能存在ref里面</li><li>meta: ^: or ^{}</li><li>前置声明: declare</li><li>agent: 串行执行，在一个STM事务里只会执行一次</li><li>send: 固定大小的线程池</li><li>send-off: 不限制大小的线程池，跟future利用的是同一个线程池，适宜阻塞的(I/O)，非CPU密集型的action</li><li>只有在函数满足不了需求的时候才去使用宏</li><li>syntax quote: 语法引述: "`"</li><li>unquote: 反引过: "~"</li><li>splicing-unquote: 编接反引述: "~@"</li><li>协议提供的是基于单个参数类型的函数分派</li><li>extend / extend-type / extend-protocol</li><li>deftype/defrecord:</li><li>工厂函数: ->MyType, map->MyType, MyType/create</li><li>require: 从classpath载入命名空间, use: require + refer</li><li>如果代码并不包括互操作调用，就没必要包括类型提示, 函数参数或返回值的类型提示都不是类型签名声明</li><li>gen-class: 必须AOT</li><li>long -> BigInt -> Rationals -> BigDecimal -> double</li></ul>
+</div>
+
+<div id="post-tags">
+    <b>Tags: </b>
+    
+    <a href="/tags-output/Clojure/">Clojure</a>
+    
+</div>
+
+
+    
+
+    <div id="prev-next">
+        
+        
+        <a class="right" href="/posts-output/2011-12-21-exim-on-debian/">setup exim on debian &raquo;</a>
+        
+    </div>
+</div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div id="sidebar">
+                <h3>Links</h3>
+                <ul id="links">
+                    <li><a href="http://cryogenweb.org/docs/home.html">Cryogen Docs</a></li>
+                    <li><a href="http://carmenla.me/blog/archives">Carmen's Blog</a></li>
+                    
+                    <li><a href="/pages-output/another-page/">Another Page</a></li>
+                    
+                </ul>
+                
+                <div id="recent">
+                    <h3>Recent Posts</h3>
+                    <ul>
+                        
+                        <li><a href="/posts-output/2014-09-12-my-clojure-notes/">my clojure notes</a></li>
+                        
+                        <li><a href="/posts-output/2011-12-21-exim-on-debian/">setup exim on debian</a></li>
+                        
+                    </ul>
+                </div>
+                
+                
+                <div id="tags">
+                    <h3>Tags</h3>
+                    <ul>
+                        
+                        <li><a href="/tags-output/Clojure/">Clojure</a></li>
+                        
+                        <li><a href="/tags-output/Linux/">Linux</a></li>
+                        
+                        <li><a href="/tags-output/Exim/">Exim</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <footer>Copyright &copy; 2018 number23
+        <p style="text-align: center;">Powered by <a href="http://cryogenweb.org">Cryogen</a></p></footer>
+</div>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="js/highlight.pack.js" type="text/javascript"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>number23: setup exim on debian</title>
+    <link rel="canonical" href="https://number23.github.io/posts-output/2011-12-21-exim-on-debian/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//fonts.googleapis.com/css?family=Alegreya:400italic,700italic,400,700" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/default.min.css">
+    <link href="/css/screen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">number23</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li ><a href="/">Home</a></li>
+                <li
+                ><a href="/archives/">Archives</a></li>
+                
+                <li
+                >
+                <a href="/pages-output/about/">About</a>
+                </li>
+                
+                <li><a href="/feed.xml">RSS</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div><!--/.container-fluid -->
+</nav>
+
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-lg-9">
+            <div id="content">
+                
+<div id="post">
+    <div class="post-header">
+    <div id="post-meta" class="row">
+        <div class="col-lg-6">December 21, 2011</div>
+        
+    </div>
+    <h2>setup exim on debian</h2>
+</div>
+<div>
+    
+    <p>我的debian版本：6.0.3，使用系统自带的exim，如果你的系统还没有安装exim，先装这几个包：</p><pre><code>Shell:&#126; &gt;: aptitude search exim | grep '&#94;i'
+i   exim4                           - metapackage to ease Exim MTA &#40;v4&#41; installa
+i   exim4-base                      - support files for all Exim MTA &#40;v4&#41; packag
+i   exim4-config                    - configuration for the Exim MTA &#40;v4&#41;
+i   exim4-daemon-light              - lightweight Exim MTA &#40;v4&#41; daemon
+</code></pre><p>设置你的/etc/hosts, /etc/resolv.conf</p><pre><code>Shell:&#126; &gt;: cat /etc/resolv.conf
+nameserver 127.0.0.1
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+</code></pre><p>可以装一下dnsmasq，避开那些讨厌的dns问题</p><pre><code>Shell:&#126; &gt;: aptitude search dnsmasq | grep '&#94;i'
+i   dnsmasq                         - A small caching DNS proxy and DHCP/TFTP se
+i A dnsmasq-base                    - A small caching DNS proxy and DHCP/TFTP se
+</code></pre><h5 id="开始配置">开始配置</h5><p>假设我的域名为：number23.no.de，可以先写在/etc/hosts里， <!&ndash;more&ndash;></p><pre><code>sudo dpkg-reconfigure exim4-config
+</code></pre><p>接下来就是按Enter选择了：<pre><code>第一个, General type of mail configuration: internet site
+第二个, System mail name: number23.no.de
+第三个, IP-addresses to listen on for incoming SMTP connections: 空白
+第四个, Other destinations for which mail is accepted: localhost.localdomain:localhost:number23.no.de
+第五个, Domains to relay mail for: 空白
+第六个, Machines to relay mail for: 127.0.0.0/8:192.168.0.0/16:10.0.0.0/8
+第七个, Keep number of DNS-queries minimal: No
+第八个, Delivery method for local mail: /var/mail
+第九个, Split configuration into small files: Yes </code></pre>看看弄出来的配置文件：</p><pre><code>Shell:&#126; &gt;: cat /etc/exim4/update-exim4.conf.conf
+dc&#95;eximconfig&#95;configtype='internet'
+dc&#95;other&#95;hostnames='localhost.localdomain:localhost:number23.no.de'
+dc&#95;local&#95;interfaces=''
+dc&#95;readhost=''
+dc&#95;relay&#95;domains=''
+dc&#95;minimaldns='false'
+dc&#95;relay&#95;nets='127.0.0.0/8:192.168.0.0/16:10.0.0.0/8'
+dc&#95;smarthost=''
+CFILEMODE='644'
+dc&#95;use&#95;split&#95;config='true'
+dc&#95;hide&#95;mailname=''
+dc&#95;mailname&#95;in&#95;oh='true'
+dc&#95;localdelivery='mail&#95;spool'
+</code></pre><p>启动它：Shell:~ >: sudo /etc/init.d/exim4 start，具体选项详细参考man update-exim4.conf 和exim<a href='http://www.exim.org/exim-html-current/doc/html/spec_html/index.html'>官方文档</a>。</p><h5 id="优化选项">优化选项</h5><p>在 /etc/exim4/conf.d/main/02<i>exim4-config</i>options 的最后面加上这些：</p><pre><code>smtp&#95;accept&#95;max=256
+smtp&#95;accept&#95;queue&#95;per&#95;connection=0
+smtp&#95;accept&#95;queue=128
+smtp&#95;accept&#95;reserve=20
+deliver&#95;queue&#95;load&#95;max=20
+queue&#95;only&#95;load=20
+queue&#95;run&#95;max=30
+smtp&#95;enforce&#95;sync=false
+message&#95;size&#95;limit=20M
+</code></pre><p>修改MAIN<i>IGNORE</i>BOUNCE<i>ERRORS</i>AFTER， MAIN<i>TIMEOUT</i>FROZEN_AFTER，</p><pre><code>Shell:/etc/exim4/conf.d/main &gt;: exim4 -bP | grep after
+ignore&#95;bounce&#95;errors&#95;after = 1d
+timeout&#95;frozen&#95;after = 2d
+</code></pre><h4 id="注意">注意</h4><p>如果Split configuration into small files, 选择No的话, 这些修改都不会有效, exim -bP 查看所有选项。<br /> smtp<i>enforce</i>sync: SMTP同步错误, 参考<a href='http://usneitn.blogspot.com/2009/02/smtp-protocol-synchronization-error.html'>这里</a></p><h5 id="qpopper/pop&#95;优化选项">qpopper/pop 优化选项</h5><pre><code>Shell:&#126; &gt;: grep pop /etc/inetd.conf
+##pop-3	stream	tcp	nowait	root	/usr/sbin/tcpd	/usr/sbin/in.qpopper -f /etc/qpopper.conf
+pop-3	stream	tcp	nowait.512	root	/usr/sbin/tcpd	/usr/sbin/in.qpopper -F -S -s -R -T 600
+</code></pre><pre><code>nowait.512: 每分钟最多可接受的连接请求数目
+-F: enable-fast-update
+-S: enable-server-mode
+-s: status
+-R: none dns lookup
+-T: timeout</code></pre>
+</div>
+
+<div id="post-tags">
+    <b>Tags: </b>
+    
+    <a href="/tags-output/Linux/">Linux</a>
+    
+    <a href="/tags-output/Exim/">Exim</a>
+    
+</div>
+
+
+    <div id="prev-next">
+        
+        <a href="/posts-output/2014-09-12-my-clojure-notes/">&laquo; my clojure notes</a>
+        
+        
+    </div>
+
+    
+
+
+</div>
+
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div id="sidebar">
+                <h3>Links</h3>
+                <ul id="links">
+                    <li><a href="http://cryogenweb.org/docs/home.html">Cryogen Docs</a></li>
+                    <li><a href="http://carmenla.me/blog/archives">Carmen's Blog</a></li>
+                    
+                    <li><a href="/pages-output/another-page/">Another Page</a></li>
+                    
+                </ul>
+                
+                <div id="recent">
+                    <h3>Recent Posts</h3>
+                    <ul>
+                        
+                        <li><a href="/posts-output/2014-09-12-my-clojure-notes/">my clojure notes</a></li>
+                        
+                        <li><a href="/posts-output/2011-12-21-exim-on-debian/">setup exim on debian</a></li>
+                        
+                    </ul>
+                </div>
+                
+                
+                <div id="tags">
+                    <h3>Tags</h3>
+                    <ul>
+                        
+                        <li><a href="/tags-output/Clojure/">Clojure</a></li>
+                        
+                        <li><a href="/tags-output/Linux/">Linux</a></li>
+                        
+                        <li><a href="/tags-output/Exim/">Exim</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <footer>Copyright &copy; 2018 number23
+        <p style="text-align: center;">Powered by <a href="http://cryogenweb.org">Cryogen</a></p></footer>
+</div>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="/js/highlight.pack.js" type="text/javascript"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rss version='2.0' xmlns:atom='http://www.w3.org/2005/Atom'>
+<channel>
+<atom:link href='https://number23.github.io/' rel='self' type='application/rss+xml'/>
+<title>
+number23
+</title>
+<link>
+https://number23.github.io/
+</link>
+<description>
+an engineer, focus on Clojure/OCaml
+</description>
+<lastBuildDate>
+Mon, 20 Aug 2018 16:53:31 +0800
+</lastBuildDate>
+<generator>
+clj-rss
+</generator>
+<item>
+<guid>
+https://number23.github.io/posts-output/2014-09-12-my-clojure-notes/
+</guid>
+<link>
+https://number23.github.io/posts-output/2014-09-12-my-clojure-notes/
+</link>
+<title>
+my clojure notes
+</title>
+<description>
+&lt;ul&gt;&lt;li&gt;let 解构: 顺序集合，map.同时作用于: fn, defn, loop, for etc.   &amp;: rest.   map: :keys, :strs, :syms&lt;/li&gt;&lt;li&gt;Clojure有两个假值：nil, false，任何非nil或非false的值都判断为true．&lt;/li&gt;&lt;li&gt;recur: not autoboxing&lt;/li&gt;&lt;li&gt;reduce: 归约&lt;/li&gt;&lt;li&gt;partial, comp：无参风格，不用显式定义它的参数&lt;/li&gt;&lt;li&gt;memoize: 缓存相同的参数&lt;/li&gt;&lt;li&gt;主要抽象：Collection/Sequence/Associative/Indexed/Stack/Set/Sorted&lt;/li&gt;&lt;li&gt;seq：任何nil 或者任何空集合都返回nil.&lt;/li&gt;&lt;li&gt;rest：(), next: nil&lt;/li&gt;&lt;li&gt;nth：会抛出异常, get: nil,&lt;/li&gt;&lt;li&gt;习惯用法：关键字作为函数&lt;/li&gt;&lt;li&gt;list/vector : hash-set/hash-map&lt;/li&gt;&lt;li&gt;transient: vector/map/set&lt;/li&gt;&lt;li&gt;delay: 只执行一次&lt;/li&gt;&lt;li&gt;future: 在另外一个线程执行&lt;/li&gt;&lt;li&gt;pmap: 并行，用future实现&lt;/li&gt;&lt;li&gt;swap! 会一直重试，直到设值成功&lt;/li&gt;&lt;li&gt;atom不能存在ref里面&lt;/li&gt;&lt;li&gt;meta: ^: or ^{}&lt;/li&gt;&lt;li&gt;前置声明: declare&lt;/li&gt;&lt;li&gt;agent: 串行执行，在一个STM事务里只会执行一次&lt;/li&gt;&lt;li&gt;send: 固定大小的线程池&lt;/li&gt;&lt;li&gt;send-off: 不限制大小的线程池，跟future利用的是同一个线程池，适宜阻塞的(I/O)，非CPU密集型的action&lt;/li&gt;&lt;li&gt;只有在函数满足不了需求的时候才去使用宏&lt;/li&gt;&lt;li&gt;syntax quote: 语法引述: &quot;`&quot;&lt;/li&gt;&lt;li&gt;unquote: 反引过: &quot;~&quot;&lt;/li&gt;&lt;li&gt;splicing-unquote: 编接反引述: &quot;~@&quot;&lt;/li&gt;&lt;li&gt;协议提供的是基于单个参数类型的函数分派&lt;/li&gt;&lt;li&gt;extend / extend-type / extend-protocol&lt;/li&gt;&lt;li&gt;deftype/defrecord:&lt;/li&gt;&lt;li&gt;工厂函数: -&gt;MyType, map-&gt;MyType, MyType/create&lt;/li&gt;&lt;li&gt;require: 从classpath载入命名空间, use: require + refer&lt;/li&gt;&lt;li&gt;如果代码并不包括互操作调用，就没必要包括类型提示, 函数参数或返回值的类型提示都不是类型签名声明&lt;/li&gt;&lt;li&gt;gen-class: 必须AOT&lt;/li&gt;&lt;li&gt;long -&gt; BigInt -&gt; Rationals -&gt; BigDecimal -&gt; double&lt;/li&gt;&lt;/ul&gt;
+</description>
+<pubDate>
+Fri, 12 Sep 2014 00:00:00 +0800
+</pubDate>
+</item>
+<item>
+<guid>
+https://number23.github.io/posts-output/2011-12-21-exim-on-debian/
+</guid>
+<link>
+https://number23.github.io/posts-output/2011-12-21-exim-on-debian/
+</link>
+<title>
+setup exim on debian
+</title>
+<description>
+&lt;p&gt;我的debian版本：6.0.3，使用系统自带的exim，如果你的系统还没有安装exim，先装这几个包：&lt;/p&gt;&lt;pre&gt;&lt;code&gt;Shell:&amp;#126; &amp;gt;: aptitude search exim | grep '&amp;#94;i'
+i   exim4                           - metapackage to ease Exim MTA &amp;#40;v4&amp;#41; installa
+i   exim4-base                      - support files for all Exim MTA &amp;#40;v4&amp;#41; packag
+i   exim4-config                    - configuration for the Exim MTA &amp;#40;v4&amp;#41;
+i   exim4-daemon-light              - lightweight Exim MTA &amp;#40;v4&amp;#41; daemon
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;设置你的/etc/hosts, /etc/resolv.conf&lt;/p&gt;&lt;pre&gt;&lt;code&gt;Shell:&amp;#126; &amp;gt;: cat /etc/resolv.conf
+nameserver 127.0.0.1
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;可以装一下dnsmasq，避开那些讨厌的dns问题&lt;/p&gt;&lt;pre&gt;&lt;code&gt;Shell:&amp;#126; &amp;gt;: aptitude search dnsmasq | grep '&amp;#94;i'
+i   dnsmasq                         - A small caching DNS proxy and DHCP/TFTP se
+i A dnsmasq-base                    - A small caching DNS proxy and DHCP/TFTP se
+&lt;/code&gt;&lt;/pre&gt;&lt;h5 id=&quot;开始配置&quot;&gt;开始配置&lt;/h5&gt;&lt;p&gt;假设我的域名为：number23.no.de，可以先写在/etc/hosts里， &lt;!&amp;ndash;more&amp;ndash;&gt;&lt;/p&gt;&lt;pre&gt;&lt;code&gt;sudo dpkg-reconfigure exim4-config
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;接下来就是按Enter选择了：&lt;pre&gt;&lt;code&gt;第一个, General type of mail configuration: internet site
+第二个, System mail name: number23.no.de
+第三个, IP-addresses to listen on for incoming SMTP connections: 空白
+第四个, Other destinations for which mail is accepted: localhost.localdomain:localhost:number23.no.de
+第五个, Domains to relay mail for: 空白
+第六个, Machines to relay mail for: 127.0.0.0/8:192.168.0.0/16:10.0.0.0/8
+第七个, Keep number of DNS-queries minimal: No
+第八个, Delivery method for local mail: /var/mail
+第九个, Split configuration into small files: Yes &lt;/code&gt;&lt;/pre&gt;看看弄出来的配置文件：&lt;/p&gt;&lt;pre&gt;&lt;code&gt;Shell:&amp;#126; &amp;gt;: cat /etc/exim4/update-exim4.conf.conf
+dc&amp;#95;eximconfig&amp;#95;configtype='internet'
+dc&amp;#95;other&amp;#95;hostnames='localhost.localdomain:localhost:number23.no.de'
+dc&amp;#95;local&amp;#95;interfaces=''
+dc&amp;#95;readhost=''
+dc&amp;#95;relay&amp;#95;domains=''
+dc&amp;#95;minimaldns='false'
+dc&amp;#95;relay&amp;#95;nets='127.0.0.0/8:192.168.0.0/16:10.0.0.0/8'
+dc&amp;#95;smarthost=''
+CFILEMODE='644'
+dc&amp;#95;use&amp;#95;split&amp;#95;config='true'
+dc&amp;#95;hide&amp;#95;mailname=''
+dc&amp;#95;mailname&amp;#95;in&amp;#95;oh='true'
+dc&amp;#95;localdelivery='mail&amp;#95;spool'
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;启动它：Shell:~ &gt;: sudo /etc/init.d/exim4 start，具体选项详细参考man update-exim4.conf 和exim&lt;a href='http://www.exim.org/exim-html-current/doc/html/spec_html/index.html'&gt;官方文档&lt;/a&gt;。&lt;/p&gt;&lt;h5 id=&quot;优化选项&quot;&gt;优化选项&lt;/h5&gt;&lt;p&gt;在 /etc/exim4/conf.d/main/02&lt;i&gt;exim4-config&lt;/i&gt;options 的最后面加上这些：&lt;/p&gt;&lt;pre&gt;&lt;code&gt;smtp&amp;#95;accept&amp;#95;max=256
+smtp&amp;#95;accept&amp;#95;queue&amp;#95;per&amp;#95;connection=0
+smtp&amp;#95;accept&amp;#95;queue=128
+smtp&amp;#95;accept&amp;#95;reserve=20
+deliver&amp;#95;queue&amp;#95;load&amp;#95;max=20
+queue&amp;#95;only&amp;#95;load=20
+queue&amp;#95;run&amp;#95;max=30
+smtp&amp;#95;enforce&amp;#95;sync=false
+message&amp;#95;size&amp;#95;limit=20M
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;修改MAIN&lt;i&gt;IGNORE&lt;/i&gt;BOUNCE&lt;i&gt;ERRORS&lt;/i&gt;AFTER， MAIN&lt;i&gt;TIMEOUT&lt;/i&gt;FROZEN_AFTER，&lt;/p&gt;&lt;pre&gt;&lt;code&gt;Shell:/etc/exim4/conf.d/main &amp;gt;: exim4 -bP | grep after
+ignore&amp;#95;bounce&amp;#95;errors&amp;#95;after = 1d
+timeout&amp;#95;frozen&amp;#95;after = 2d
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&quot;注意&quot;&gt;注意&lt;/h4&gt;&lt;p&gt;如果Split configuration into small files, 选择No的话, 这些修改都不会有效, exim -bP 查看所有选项。&lt;br /&gt; smtp&lt;i&gt;enforce&lt;/i&gt;sync: SMTP同步错误, 参考&lt;a href='http://usneitn.blogspot.com/2009/02/smtp-protocol-synchronization-error.html'&gt;这里&lt;/a&gt;&lt;/p&gt;&lt;h5 id=&quot;qpopper/pop&amp;#95;优化选项&quot;&gt;qpopper/pop 优化选项&lt;/h5&gt;&lt;pre&gt;&lt;code&gt;Shell:&amp;#126; &amp;gt;: grep pop /etc/inetd.conf
+##pop-3	stream	tcp	nowait	root	/usr/sbin/tcpd	/usr/sbin/in.qpopper -f /etc/qpopper.conf
+pop-3	stream	tcp	nowait.512	root	/usr/sbin/tcpd	/usr/sbin/in.qpopper -F -S -s -R -T 600
+&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;nowait.512: 每分钟最多可接受的连接请求数目
+-F: enable-fast-update
+-S: enable-server-mode
+-s: status
+-R: none dns lookup
+-T: timeout&lt;/code&gt;&lt;/pre&gt;
+</description>
+<pubDate>
+Wed, 21 Dec 2011 00:00:00 +0800
+</pubDate>
+</item>
+</channel>
+</rss>
