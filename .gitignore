@@ -2,3 +2,4 @@
 /doc
 /target
 .lein-repl-history
+resources/public/
