@@ -12,11 +12,76 @@ https://number23.github.io/
 an engineer, focus on Clojure/OCaml
 </description>
 <lastBuildDate>
-Tue, 21 Aug 2018 08:56:10 +0800
+Fri, 21 Sep 2018 14:36:29 +0800
 </lastBuildDate>
 <generator>
 clj-rss
 </generator>
+<item>
+<guid>
+https://number23.github.io/posts-output/2018-09-21-tips-for-curl-command/
+</guid>
+<link>
+https://number23.github.io/posts-output/2018-09-21-tips-for-curl-command/
+</link>
+<title>
+Tips for curl command
+</title>
+<description>
+&lt;h3 id=&quot;1.下载一个文件&quot;&gt;1.下载一个文件&lt;/h3&gt;&lt;p&gt;有两个选项：&lt;code&gt;-O&lt;/code&gt; 和 &lt;code&gt;-o&lt;/code&gt;，(大小写的字母&lt;code&gt;O&lt;/code&gt;, 不是数字&lt;code&gt;0&lt;/code&gt;), 前者获取URL中的文件名用作结果的文件名， 后者可以自定义文件名&lt;/p&gt;&lt;pre&gt;&lt;code&gt;$ curl -O http://yourdomain.com/yourfile.tar.gz # 保存为 yourfile.tar.gz
+$ curl -o newfile.tar.gz http://yourdomain.com/yourfile.tar.gz # 保存为 newfile.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我们可以通过指定URL来一次下载多个文件:&lt;/p&gt;&lt;pre&gt;&lt;code&gt;$ curl -O URL1 -O URL2
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果我们在同一服务器下载多个文件，&lt;code&gt;CRUL&lt;/code&gt;将尝试重新使用该连接。&lt;/p&gt;&lt;h3 id=&quot;2.&amp;#95;使用-l选项跟随&amp;#95;http&amp;#95;位置标头&quot;&gt;2. 使用-L选项跟随 HTTP 位置标头&lt;/h3&gt;&lt;p&gt;有时候一个&lt;code&gt;URL&lt;/code&gt;会被重定向到另外一个，&lt;code&gt;CURL&lt;/code&gt; 默认是不会跟随的，只会返回一个&lt;code&gt;3XX&lt;/code&gt;的重定向&lt;/p&gt;&lt;pre&gt;&lt;code&gt;$ curl http://yourdomain.com
+
+
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;301 Moved Permanently&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt;
+&amp;lt;body bgcolor=&amp;quot;white&amp;quot;&amp;gt;
+&amp;lt;center&amp;gt;&amp;lt;h1&amp;gt;301 Moved Permanently&amp;lt;/h1&amp;gt;&amp;lt;/center&amp;gt;
+&amp;lt;hr&amp;gt;&amp;lt;center&amp;gt;nginx&amp;lt;/center&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;3.&amp;#95;恢复一个已经中断的下载&quot;&gt;3. 恢复一个已经中断的下载&lt;/h3&gt;&lt;p&gt;如果下载因某种原因中断了(例如，使用&lt;code&gt;Ctrl + c&lt;/code&gt;), 可以使用&lt;code&gt;-C -&lt;/code&gt;从停止的地方开始继续下载。&lt;/p&gt;&lt;pre&gt;&lt;code&gt;$ curl -O http://www.gnu.org/software/gettext/manual/gettext.html 
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  2 1375k    2 40901    0     0  41738      0  0:00:33 --:--:--  0:00:33 41735&amp;#94;C
+
+$ curl -C - -O http://www.gnu.org/software/gettext/manual/gettext.html
+&amp;#42;&amp;#42; Resuming transfer from byte position 290816
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 1091k  100 1091k    0     0   414k      0  0:00:02  0:00:02 --:--:--  414k
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;4.&amp;#95;http身份验证&quot;&gt;4. HTTP身份验证&lt;/h3&gt;&lt;p&gt;有时，网站需要用户名和密码才能查看内容(例如在&lt;code&gt;.htaccess&lt;/code&gt;文件设定的)，在&lt;code&gt;-u&lt;/code&gt;选项的帮助下，我们可以将这些凭据传递到Web服务器，如下所示&lt;/p&gt;&lt;pre&gt;&lt;code&gt;$ curl -u username:password URL
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;默认情况下，使用基本HTTP身份验证。 我们可以使用&lt;code&gt;-ntlm | –digest&lt;/code&gt;指定其他身份验证方法&lt;/p&gt;&lt;h3 id=&quot;5.&amp;#95;从ftp服务器下载文件&quot;&gt;5. 从FTP服务器下载文件&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;$ curl -u username:password -O ftp://yourftpserver/yourfile.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;以上命令将在当前工作目录从&lt;code&gt;ftp://yourftpserver&lt;/code&gt;下载&lt;code&gt;yourfile.tar.gz&lt;/code&gt;， 如果FTP服务器允许匿名登录，您可以跳过&lt;code&gt;-u username:password&lt;/code&gt;。&lt;/p&gt;&lt;h3 id=&quot;6.&amp;#95;上传文件到ftp服务器&quot;&gt;6. 上传文件到FTP服务器&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;$ curl -u username:password -T mylocalfile.tar.gz ftp://yourftpserver
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;还可以使用范围操作同时上载多个文件：&lt;/p&gt;&lt;pre&gt;&lt;code&gt;$ curl -u ftpuser:ftppass -T &amp;quot;{file1,file2}&amp;quot; ftp:/yourftpserver
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;7.&amp;#95;查询&amp;#95;http&amp;#95;消息头&quot;&gt;7. 查询 HTTP 消息头&lt;/h3&gt;&lt;p&gt;HTTP消息头允许远程Web服务器发送有关自身的其他信息以及实际请求，提供了有关如何处理请求的详细信息   &lt;/p&gt;&lt;pre&gt;&lt;code&gt;$ curl -I www.google.com
+
+HTTP/1.1 200 OK
+Date: Fri, 21 Sep 2018 05:47:05 GMT
+Expires: -1
+Cache-Control: private, max-age=0
+Content-Type: text/html; charset=ISO-8859-1
+P3P: CP=&amp;quot;This is not a P3P policy! See g.co/p3phelp for more info.&amp;quot;
+Server: gws
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Set-Cookie: 1P&amp;#95;JAR=2018-09-21-05; path=/; domain=.google.com
+Set-Cookie: NID=139=XwjdbwcijthXcvsa4bTuw&amp;#95;mJJj8O5gY8Bc-HvulmzBFTesG-IJ4lIQXxgtGf9cVD1O&amp;#95;A0ePVWWun5x4tQiTtXLnzdFIG9EEFCw0QocNvc&amp;#95;6q7ddAgYJbmTKJ-xwbN3ql; path=/; domain=.google.com; HttpOnly
+Transfer-Encoding: chunked
+Accept-Ranges: none
+Vary: Accept-Encoding
+Proxy-Connection: keep-alive
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;8.&amp;#95;使用代理&quot;&gt;8. 使用代理&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;$ curl -x proxy.yourdomain.com:8080 -U user:password -O http://yourdomain.com/yourfile.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果代理服务器允许匿名，您可以跳过&lt;code&gt;-U username:password&lt;/code&gt;。&lt;/p&gt;&lt;h3 id=&quot;9.&amp;#95;提交表单&quot;&gt;9. 提交表单&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;curl --data &amp;quot;firstName=John&amp;amp;lastName=Doe&amp;quot; https://yourdomain.com/info.php
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;以上命令将&lt;code&gt;firstName&lt;/code&gt;和&lt;code&gt;lastName&lt;/code&gt;参数及其对应值发送到&lt;code&gt;https://yourdomain.com/info.php&lt;/code&gt;。&lt;/p&gt;&lt;h3 id=&quot;10.&amp;#95;使用&amp;#95;cookies&quot;&gt;10. 使用 Cookies&lt;/h3&gt;&lt;p&gt;写入 &lt;code&gt;Cookies&lt;/code&gt; 文件：&lt;/p&gt;&lt;pre&gt;&lt;code&gt;$ curl --cookie-jar c.txt https://www.google.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;使用 &lt;code&gt;Cookies&lt;/code&gt; 文件：&lt;/p&gt;&lt;pre&gt;&lt;code&gt;$ curl --cookie c.txt https://www.google.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;更多参考&lt;a href='https://curl.haxx.se/docs/httpscripting.html'&gt;这里&lt;/a&gt;&lt;/p&gt;
+</description>
+<pubDate>
+Fri, 21 Sep 2018 00:00:00 +0800
+</pubDate>
+</item>
 <item>
 <guid>
 https://number23.github.io/posts-output/2014-09-12-my-clojure-notes/
